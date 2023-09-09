@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>
+      RegistrApp
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<h1>Recuperar Contraseña</h1>
+
+
+<ion-content>
+  <form action="">
+    <ion-item>
+      <ion-label position="floating">Usuario</ion-label>
+      <ion-input type="text" [(ngModel)]="usuario" name="usuario"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Nueva Contraseña</ion-label>
+      <ion-input type="password" [(ngModel)]="nuevaPassword" name="nuevaPassword"></ion-input>
+    </ion-item>
+    <div class="button-container">
+      <ion-button class="side-button" (click)="cambiarPassword()">Cambiar</ion-button>
+      <ion-button class="side-button" (click)="atrasInicio()">Atras</ion-button>
+    </div>
+  </form>
+</ion-content>
+

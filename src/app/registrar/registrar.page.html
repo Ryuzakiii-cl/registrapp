@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>RegistrApp</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<h1>Registrar Usuario</h1>
+
+<ion-content class="formulario">
+  <form (submit)="crearCuenta()">
+    <ion-item>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input type="text" [(ngModel)]="nombre" name="nombre"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Apellido</ion-label>
+      <ion-input type="text" [(ngModel)]="apellido" name="apellido"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">RUT</ion-label>
+      <ion-input type="text" [(ngModel)]="rut" name="rut"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Usuario</ion-label>
+      <ion-input type="text" [(ngModel)]="usuario" name="usuario"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password" [(ngModel)]="password" name="password"></ion-input>
+    </ion-item>
+
+    <div class="button-container">
+      <ion-button class="submit-button" type="submit">Registrar</ion-button>
+      <ion-button class="clear-button" (click)="limpiarCampos()">Limpiar</ion-button>
+    </div>
+  </form>
+</ion-content>
+
+
+<ion-footer class="button-container">
+    <ion-button  (click)="atrasInicio()">Atras</ion-button>
+</ion-footer>
