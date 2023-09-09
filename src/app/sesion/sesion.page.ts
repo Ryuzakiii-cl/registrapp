@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
-import { AlertController } from '@ionic/angular';
+import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
+
 
 
 @Component({
@@ -10,12 +10,24 @@ import { AlertController } from '@ionic/angular';
 })
 export class SesionPage implements OnInit {
   
+  code: any;
+  constructor(private barcodeScanner: BarcodeScanner) { }
 
-  constructor(private alertController: AlertController) { }
 
+  
   ngOnInit() {
+
   }
 
+
+  scan(){
+    this.barcodeScanner.scan().then(barcodeData => {
+      this.code = barcodeData.text;
+      console.log('Barcode data', this.code);
+     }).catch(err => {
+         console.log('Error', err);
+     });
+  }
 
 
 }
