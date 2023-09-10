@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
-
+import { AlertController } from '@ionic/angular';
+import { BarcodeScanner} from 'capacitor-barcode-scanner'
 
 
 @Component({
@@ -9,25 +9,34 @@ import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
   styleUrls: ['./sesion.page.scss'],
 })
 export class SesionPage implements OnInit {
-  
-  code: any;
-  constructor(private barcodeScanner: BarcodeScanner) { }
+  isSupported = true;
+ 
 
+  constructor(private alertController: AlertController) { }
 
-  
   ngOnInit() {
-
+    
   }
 
 
-  scan(){
-    this.barcodeScanner.scan().then(barcodeData => {
-      this.code = barcodeData.text;
-      console.log('Barcode data', this.code);
-     }).catch(err => {
-         console.log('Error', err);
-     });
+  async anto(){
+
+    const result = await(await BarcodeScanner.scan()).code;
+    if (result) {
+      console.log('Qr',JSON.parse(result));
+    }
+    
+
   }
 
+ 
 
+  async presentAlert(): Promise<void> {
+    const alert = await this.alertController.create({
+      header: 'Permission denied',
+      message: 'Please grant camera permission to use the barcode scanner.',
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
 }

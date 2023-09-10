@@ -5,6 +5,13 @@
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="scan()">Escanear Codigo</ion-button>
-  {{code}}
+  <ion-list>
+    <ion-item >
+    </ion-item>
+  </ion-list>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="anto()">
+      <ion-icon name="scan"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
