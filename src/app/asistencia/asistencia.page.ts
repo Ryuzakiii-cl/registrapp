@@ -8,7 +8,8 @@ import { Router, ActivatedRoute} from "@angular/router";
 })
 export class AsistenciaPage implements OnInit {
   resultadoEscaneo : string | null = null;
-  timestamp: string;
+  timestamp1: string;
+  timestamp2: string;
 
 
   constructor( 
@@ -21,8 +22,11 @@ export class AsistenciaPage implements OnInit {
       });
       
 
-      const now = new Date();
-      this.timestamp = now.toLocaleString(); // Puedes ajustar el formato según tus preferencias
+      const fecha = new Date();
+      this.timestamp1 = fecha.toLocaleDateString(); 
+
+      const hora = new Date();
+      this.timestamp2 = hora.toLocaleTimeString(); 
     }
 
   ngOnInit() {
