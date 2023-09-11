@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
 import { BarcodeScanner} from 'capacitor-barcode-scanner'
-import { ActivatedRoute } from "@angular/router";
+import { Route, ActivatedRoute } from "@angular/router";
 
 
 @Component({
@@ -32,6 +32,7 @@ export class SesionPage implements OnInit {
       
     if (resultadoScan.result) {
       console.log("resulatdo escaner",resultadoScan.code);
+      this.navCtrl.navigateForward('/asistencia');
     }
     else
     {
