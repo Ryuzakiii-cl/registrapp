@@ -17,6 +17,9 @@ export class Tab1Page {
     private alertController: AlertController) {}
       
 
+
+
+
   iniciarSesion() {
     // Obtener los datos de usuarios existentes del localStorage
     const usuariosExistenteString = localStorage.getItem('usuarios');
@@ -31,6 +34,7 @@ export class Tab1Page {
       // Usuario encontrado, verificar contraseña
       if (usuarioEncontrado.password === this.password) {
         // Contraseña válida, redirigir a la página "Sesión"
+        localStorage.setItem('usuarioActual', usuarioEncontrado.usuario);
         this.navCtrl.navigateForward(['/sesion', {usuario:this.usuario}]);
         this.usuario = '';
         this.password = '';

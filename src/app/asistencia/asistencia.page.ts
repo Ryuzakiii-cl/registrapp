@@ -10,6 +10,8 @@ export class AsistenciaPage implements OnInit {
   resultadoEscaneo : string | null = null;
   timestamp1: string;
   timestamp2: string;
+  nombre: string | null = null;
+  rut: string | null = null;
 
 
   constructor( 
@@ -20,6 +22,21 @@ export class AsistenciaPage implements OnInit {
       this.activatedrouter.paramMap.subscribe((params) =>{
         this.resultadoEscaneo = params.get('resultadoEscaneo');
       });
+
+    const usuariosExistenteString = localStorage.getItem('usuarios');
+    const usuariosExistente = usuariosExistenteString ? JSON.parse(usuariosExistenteString) : [];
+
+    // nombre donde se almacenan los datos
+    const usuarioActual = localStorage.getItem('usuarioActual');
+
+    //buscamos el usuario en la lista
+    const usuarioEncontrado = usuariosExistente.find((u: any) => u.usuario === usuarioActual);
+
+    if (usuarioEncontrado) {
+      // se asigna el nombre y rut segun lo encontrado
+      this.nombre = usuarioEncontrado.nombre;
+      this.rut = usuarioEncontrado.rut;
+    }
       
 
       const fecha = new Date();
