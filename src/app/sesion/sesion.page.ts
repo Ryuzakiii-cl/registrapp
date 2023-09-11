@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
-import { BarcodeScanner} from 'capacitor-barcode-scanner'
-import { Route, ActivatedRoute } from "@angular/router";
-
+import { BarcodeScanner } from 'capacitor-barcode-scanner';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-sesion',
@@ -12,36 +11,34 @@ import { Route, ActivatedRoute } from "@angular/router";
 export class SesionPage implements OnInit {
   usuario: string | null = null;
   isSupported = true;
- 
+  resultadoEscaneo : string | null | undefined;
+  
 
-  constructor(private alertController: AlertController,
-    private  navCtrl: NavController,
-    private activatedrouter: ActivatedRoute) { 
-      this.activatedrouter.paramMap.subscribe((params) =>{
-        this.usuario = params.get('usuario');
-      });
-    }
-
-  ngOnInit() {
+  constructor(
+    private alertController: AlertController,
+    private navCtrl: NavController,
+    private activatedrouter: ActivatedRoute
+  ) {
+    this.activatedrouter.paramMap.subscribe((params) => {
+      this.usuario = params.get('usuario');
+    });
     
   }
 
 
-  async anto(){
-    const resultadoScan = await(await BarcodeScanner.scan())
-      
+  
+  ngOnInit() {}
+
+  async anto() {
+    const resultadoScan = await BarcodeScanner.scan();
     if (resultadoScan.result) {
-      console.log("resulatdo escaner",resultadoScan.code);
-      this.navCtrl.navigateForward('/asistencia');
-    }
-    else
-    {
-      alert("No es posible capturar la información.")
+      console.log('resulatdo escaner', resultadoScan.code);
+      this.resultadoEscaneo=resultadoScan.code;
+      this.navCtrl.navigateForward(['/asistencia', {resultadoEscaneo:this.resultadoEscaneo}]);
+    } else {
+      alert('No es posible capturar la información.');
     }
   }
-
-  
- 
 
   async presentAlert(): Promise<void> {
     const alert = await this.alertController.create({
@@ -53,6 +50,6 @@ export class SesionPage implements OnInit {
   }
 
   CerrarSesion() {
-    this.navCtrl.navigateRoot(['/tabs/tab1']); 
-      }
+    this.navCtrl.navigateRoot(['/tabs/tab1']);
+  }
 }

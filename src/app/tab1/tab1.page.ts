@@ -11,7 +11,10 @@ export class Tab1Page {
   usuario: string = '';
   password: string = '';
 
-  constructor(public navCtrl: NavController, private alertController: AlertController) {}
+
+  constructor(
+    public navCtrl: NavController, 
+    private alertController: AlertController) {}
       
 
   iniciarSesion() {
@@ -19,8 +22,10 @@ export class Tab1Page {
     const usuariosExistenteString = localStorage.getItem('usuarios');
     const usuariosExistente = usuariosExistenteString ? JSON.parse(usuariosExistenteString) : [];
 
+
     // Buscar el usuario por el nombre de usuario
     const usuarioEncontrado = usuariosExistente.find((u: any) => u.usuario === this.usuario);
+
 
     if (usuarioEncontrado) {
       // Usuario encontrado, verificar contraseña
