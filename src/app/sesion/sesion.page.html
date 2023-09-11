@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color>
+  <ion-toolbar color="primary">
     <ion-title>RegistrApp</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -7,6 +7,7 @@
 <ion-content>
   <ion-list>
     <ion-item >
+      <h1>Bienvenido {{usuario}}</h1>
     </ion-item>
   </ion-list>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
@@ -15,3 +16,7 @@
     </ion-fab-button>
   </ion-fab>
 </ion-content>
+
+<ion-footer class="button-container">
+  <ion-button  (click)="CerrarSesion()">Cerrar sesion</ion-button>
+</ion-footer> 

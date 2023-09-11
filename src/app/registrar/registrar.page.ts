@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 
 
 @Component({
@@ -14,9 +14,10 @@ export class RegistrarPage {
   usuario: string = '';
   password: string = '';
 
-  constructor(private navCtrl: NavController) {}
+  constructor(private navCtrl: NavController,
+    private alertController: AlertController) {}
 
-  crearCuenta() {
+  async crearCuenta() {
     // Validación de campos aquí si es necesario
 
     // Obtener los datos de usuarios existentes del localStorage (si los hay)
@@ -44,8 +45,14 @@ export class RegistrarPage {
     // Limpiar los campos
     this.limpiarCampos();
 
-    // Redirigir a la página de inicio o a donde desees
-    // this.router.navigate(['/tab1']); // Asegúrate de importar Router y ActivatedRoute si es necesario
+    const alert = await this.alertController.create({
+      header: 'Exito',
+      message: 'La cuenta ha sido creada exitosamente',
+      buttons: ['Aceptar']
+    });
+
+    await alert.present();
+
   }
 
   limpiarCampos() {

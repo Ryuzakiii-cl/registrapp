@@ -11,7 +11,7 @@ export class Tab1Page {
   usuario: string = '';
   password: string = '';
 
-  constructor(private navCtrl: NavController, private alertController: AlertController) {}
+  constructor(public navCtrl: NavController, private alertController: AlertController) {}
       
 
   iniciarSesion() {
@@ -26,7 +26,9 @@ export class Tab1Page {
       // Usuario encontrado, verificar contraseña
       if (usuarioEncontrado.password === this.password) {
         // Contraseña válida, redirigir a la página "Sesión"
-        this.navCtrl.navigateForward('/sesion');
+        this.navCtrl.navigateForward(['/sesion', {usuario:this.usuario}]);
+        this.usuario = '';
+        this.password = '';
       } else {
         // Mostrar un mensaje de alerta si la contraseña es incorrecta
         this.mostrarAlerta('Error', 'Contraseña incorrecta');
@@ -57,6 +59,8 @@ export class Tab1Page {
 
       Registrar() {
         this.navCtrl.navigateForward('/registrar'); 
+        this.usuario = '';
+        this.password = '';
           }
 
       recuperar(){

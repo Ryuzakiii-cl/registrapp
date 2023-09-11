@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { BarcodeScanner} from 'capacitor-barcode-scanner'
+import { ActivatedRoute } from "@angular/router";
 
 
 @Component({
@@ -9,10 +10,17 @@ import { BarcodeScanner} from 'capacitor-barcode-scanner'
   styleUrls: ['./sesion.page.scss'],
 })
 export class SesionPage implements OnInit {
+  usuario: string | null = null;
   isSupported = true;
  
 
-  constructor(private alertController: AlertController) { }
+  constructor(private alertController: AlertController,
+    private  navCtrl: NavController,
+    private activatedrouter: ActivatedRoute) { 
+      this.activatedrouter.paramMap.subscribe((params) =>{
+        this.usuario = params.get('usuario');
+      });
+    }
 
   ngOnInit() {
     
@@ -20,15 +28,18 @@ export class SesionPage implements OnInit {
 
 
   async anto(){
-
-    const result = await(await BarcodeScanner.scan()).code;
-    if (result) {
-      console.log('Qr',JSON.parse(result));
+    const resultadoScan = await(await BarcodeScanner.scan())
+      
+    if (resultadoScan.result) {
+      console.log("resulatdo escaner",resultadoScan.code);
     }
-    
-
+    else
+    {
+      alert("No es posible capturar la información.")
+    }
   }
 
+  
  
 
   async presentAlert(): Promise<void> {
@@ -39,4 +50,8 @@ export class SesionPage implements OnInit {
     });
     await alert.present();
   }
+
+  CerrarSesion() {
+    this.navCtrl.navigateRoot(['/tabs/tab1']); 
+      }
 }
