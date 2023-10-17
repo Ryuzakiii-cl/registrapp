@@ -21,7 +21,23 @@ const routes: Routes = [
   {
     path: 'asistencia',
     loadChildren: () => import('./asistencia/asistencia.module').then( m => m.AsistenciaPageModule)
-  }
+  },
+  {
+    path: 'e404',
+    loadChildren: () => import('./e404/e404.module').then( m => m.E404PageModule)
+  },
+  {
+    path: 'tabs/tab1',
+    redirectTo: 'tabs/tab1',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: 'e404', // Captura todas las rutas desconocidas y las redirige a 'e404'
+    pathMatch: 'full'
+  },
+
+
 ];
 @NgModule({
   imports: [
