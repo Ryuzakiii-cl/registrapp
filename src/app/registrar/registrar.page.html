@@ -23,8 +23,7 @@
     <ion-item>
       <ion-label> Región</ion-label>
       <div>
-        <ion-select>
-          <ion-select-option value="primaria">Basica</ion-select-option>
+        <ion-select> 
           <ion-select-option *ngFor="let region of regiones">
             {{region.nombre}}
           </ion-select-option>
