@@ -1,28 +1,51 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
-
+import { ServiciosService } from 'src/app/servicios.service';
 
 @Component({
   selector: 'app-registrar',
   templateUrl: 'registrar.page.html',
   styleUrls: ['registrar.page.scss'],
 })
-export class RegistrarPage {
+export class RegistrarPage implements OnInit{
+  regiones: any[] = [];
+
   nombre: string = '';
   apellido: string = '';
   rut: string = '';
   usuario: string = '';
   password: string = '';
 
-  constructor(private navCtrl: NavController,
-    private alertController: AlertController) {}
+  constructor(
+    private navCtrl: NavController,
+    private alertController: AlertController,
+    private ServiciosService: ServiciosService
+  ) {}
+
+  ngOnInit() {
+    this.obtenerRegiones();
+  }
+
+  obtenerRegiones(){
+    this.ServiciosService.obtenerRegiones().subscribe(
+      (data)=>{
+        this.regiones = data.data;
+      },
+      (error)=>{
+        console.error('Error no se pueden obtener las regiones: ', error);
+
+      }
+    );
+  }
 
   async crearCuenta() {
     // Validación de campos aquí si es necesario
 
     // Obtener los datos de usuarios existentes del localStorage (si los hay)
     const usuariosExistenteString = localStorage.getItem('usuarios');
-    const usuariosExistente = usuariosExistenteString ? JSON.parse(usuariosExistenteString) : [];
+    const usuariosExistente = usuariosExistenteString
+      ? JSON.parse(usuariosExistenteString)
+      : [];
 
     // Crear un objeto con los datos del nuevo usuario
     const nuevoUsuario = {
@@ -48,11 +71,10 @@ export class RegistrarPage {
     const alert = await this.alertController.create({
       header: 'Exito',
       message: 'La cuenta ha sido creada exitosamente',
-      buttons: ['Aceptar']
+      buttons: ['Aceptar'],
     });
 
     await alert.present();
-
   }
 
   limpiarCampos() {
@@ -64,6 +86,6 @@ export class RegistrarPage {
   }
 
   atrasInicio() {
-    this.navCtrl.navigateRoot(['/tabs/tab1']); 
-      }
+    this.navCtrl.navigateRoot(['/tabs/tab1']);
+  }
 }

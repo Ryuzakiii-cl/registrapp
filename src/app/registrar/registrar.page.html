@@ -17,8 +17,19 @@
       <ion-input type="text" [(ngModel)]="apellido" name="apellido"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">RUT</ion-label>
+      <ion-label position="floating">Rut</ion-label>
       <ion-input type="text" [(ngModel)]="rut" name="rut"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label> Región</ion-label>
+      <div>
+        <ion-select>
+          <ion-select-option value="primaria">Basica</ion-select-option>
+          <ion-select-option *ngFor="let region of regiones">
+            {{region.nombre}}
+          </ion-select-option>
+        </ion-select>
+      </div>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Usuario</ion-label>
@@ -38,5 +49,5 @@
 
 
 <ion-footer class="button-container">
-    <ion-button  (click)="atrasInicio()">Atras</ion-button>
-</ion-footer> 
+  <ion-button (click)="atrasInicio()">Atras</ion-button>
+</ion-footer>
