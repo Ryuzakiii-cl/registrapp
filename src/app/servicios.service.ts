@@ -16,4 +16,7 @@ export class ServiciosService {
   obtenerRegiones():Observable<any>{
     return this.http.get<any>(this.apiUrl);
   }
+
+
+
 }

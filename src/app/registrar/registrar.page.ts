@@ -7,7 +7,7 @@ import { ServiciosService } from 'src/app/servicios.service';
   templateUrl: 'registrar.page.html',
   styleUrls: ['registrar.page.scss'],
 })
-export class RegistrarPage implements OnInit{
+export class RegistrarPage implements OnInit {
   regiones: any[] = [];
 
   nombre: string = '';
@@ -26,55 +26,65 @@ export class RegistrarPage implements OnInit{
     this.obtenerRegiones();
   }
 
-  obtenerRegiones(){
+  obtenerRegiones() {
     this.ServiciosService.obtenerRegiones().subscribe(
-      (data)=>{
+      (data) => {
         this.regiones = data.data;
       },
-      (error)=>{
+      (error) => {
         console.error('Error no se pueden obtener las regiones: ', error);
-
       }
     );
   }
 
   async crearCuenta() {
     // Validación de campos aquí si es necesario
+    if (
+      this.nombre == '' ||
+      this.apellido == '' ||
+      this.rut == '' ||
+      this.usuario == '' ||
+      this.password == ''
+    ) {
+      console.error('Campos vacios');
+      const alert = await this.alertController.create({
+        header: 'Alerta',
+        message: 'Todos los campos deben llenarse',
+        buttons: ['Aceptar'],
+      });
+      await alert.present();
+    } else {
+      const usuariosExistenteString = localStorage.getItem('usuarios');
+      const usuariosExistente = usuariosExistenteString
+        ? JSON.parse(usuariosExistenteString)
+        : [];
 
-    // Obtener los datos de usuarios existentes del localStorage (si los hay)
-    const usuariosExistenteString = localStorage.getItem('usuarios');
-    const usuariosExistente = usuariosExistenteString
-      ? JSON.parse(usuariosExistenteString)
-      : [];
+      const nuevoUsuario = {
+        nombre: this.nombre,
+        apellido: this.apellido,
+        rut: this.rut,
+        usuario: this.usuario,
+        password: this.password,
+      };
 
-    // Crear un objeto con los datos del nuevo usuario
-    const nuevoUsuario = {
-      nombre: this.nombre,
-      apellido: this.apellido,
-      rut: this.rut,
-      usuario: this.usuario,
-      password: this.password,
-    };
+      usuariosExistente.push(nuevoUsuario);
 
-    // Agregar el nuevo usuario al arreglo de usuarios existentes
-    usuariosExistente.push(nuevoUsuario);
+      localStorage.setItem('usuarios', JSON.stringify(usuariosExistente));
+      // Mostrar todos los datos de usuarios en la consola
+      console.log(
+        'Todos los datos de usuarios registrados:',
+        usuariosExistente
+      );
+      this.limpiarCampos();
 
-    // Almacenar el arreglo de usuarios en el localStorage como cadena JSON
-    localStorage.setItem('usuarios', JSON.stringify(usuariosExistente));
+      const alert = await this.alertController.create({
+        header: 'Exito',
+        message: 'La cuenta ha sido creada exitosamente',
+        buttons: ['Aceptar'],
+      });
 
-    // Mostrar todos los datos de usuarios en la consola
-    console.log('Todos los datos de usuarios registrados:', usuariosExistente);
-
-    // Limpiar los campos
-    this.limpiarCampos();
-
-    const alert = await this.alertController.create({
-      header: 'Exito',
-      message: 'La cuenta ha sido creada exitosamente',
-      buttons: ['Aceptar'],
-    });
-
-    await alert.present();
+      await alert.present();
+    }
   }
 
   limpiarCampos() {
