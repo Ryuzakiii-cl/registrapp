@@ -9,7 +9,7 @@ import { ServiciosService } from 'src/app/servicios.service';
 })
 export class RegistrarPage implements OnInit {
   regiones: any[] = [];
-
+  comunas: any[] = [];
   nombre: string = '';
   apellido: string = '';
   rut: string = '';
