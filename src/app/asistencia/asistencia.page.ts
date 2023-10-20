@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { NavController } from "@ionic/angular";
 import { Router, ActivatedRoute} from "@angular/router";
 @Component({
@@ -12,11 +12,11 @@ export class AsistenciaPage implements OnInit {
   timestamp2: string;
   nombre: string | null = null;
   rut: string | null = null;
-
+  router = inject(Router);
 
   constructor( 
     private navCtrl: NavController,
-    private router: Router,
+
     private activatedrouter: ActivatedRoute
     ) { 
       this.activatedrouter.paramMap.subscribe((params) =>{
@@ -56,7 +56,8 @@ export class AsistenciaPage implements OnInit {
   }
 
   cerrarSesion(){
-    this.navCtrl.navigateForward('/tabs/tab1')
+    localStorage.removeItem('usuarioActual');
+    this.router.navigate(['/tabs/tab1']);
   }
 
 }

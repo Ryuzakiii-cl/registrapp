@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
 import { BarcodeScanner } from 'capacitor-barcode-scanner';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-sesion',
@@ -12,6 +12,7 @@ export class SesionPage implements OnInit {
   usuario: string | null = null;
   isSupported = true;
   resultadoEscaneo : string | null | undefined;
+  router = inject(Router);
   
 
   constructor(
@@ -49,7 +50,8 @@ export class SesionPage implements OnInit {
     await alert.present();
   }
 
-  CerrarSesion() {
-    this.navCtrl.navigateRoot(['/tabs/tab1']);
+  cerrarSesion() {
+    localStorage.removeItem('usuarioActual');
+    this.router.navigate(['/tabs/tab1']);
   }
 }

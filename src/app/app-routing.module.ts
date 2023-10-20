@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './guards/auth.guard';
+import { loginGuard } from './guards/auth.guard';
+
 
 const routes: Routes = [
   {
@@ -17,12 +18,12 @@ const routes: Routes = [
   },
   {
     path: 'sesion',
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./sesion/sesion.module').then( m => m.SesionPageModule)
+    loadChildren: () => import('./sesion/sesion.module').then( m => m.SesionPageModule),
+    canActivate: [loginGuard],
   },
   {
     path: 'asistencia',
-    canActivate: [AuthGuard],
+    canActivate: [loginGuard],
     loadChildren: () => import('./asistencia/asistencia.module').then( m => m.AsistenciaPageModule)
   },
   {
