@@ -37,6 +37,11 @@ export class RegistrarPage implements OnInit {
     );
   }
 
+
+  obtenerComunas(){
+    
+  }
+
   async crearCuenta() {
     // Validación de campos aquí si es necesario
     if (

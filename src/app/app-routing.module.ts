@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -16,10 +17,12 @@ const routes: Routes = [
   },
   {
     path: 'sesion',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./sesion/sesion.module').then( m => m.SesionPageModule)
   },
   {
     path: 'asistencia',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./asistencia/asistencia.module').then( m => m.AsistenciaPageModule)
   },
   {
@@ -36,6 +39,7 @@ const routes: Routes = [
     redirectTo: 'e404', // Captura todas las rutas desconocidas y las redirige a 'e404'
     pathMatch: 'full'
   },
+
 
 
 ];
