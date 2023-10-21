@@ -3,6 +3,7 @@ import { AlertController } from '@ionic/angular';
 import { ServiciosService } from 'src/app/servicios.service';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-registrar',
   templateUrl: 'registrar.page.html',

@@ -1,5 +1,8 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="primary">
+  <ion-toolbar color="primary" >
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab1" text="Atrás"></ion-back-button>
+    </ion-buttons>
     <ion-title>RegistrApp</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -56,6 +59,4 @@
   </form>
 </ion-content>
 
-<ion-footer class="button-container">
-  <ion-button (click)="back()">Atras</ion-button>
-</ion-footer>
+

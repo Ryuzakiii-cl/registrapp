@@ -1,5 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab1" text="Atrás"></ion-back-button>
+    </ion-buttons>
     <ion-title>
       RegistrApp
     </ion-title>
@@ -22,7 +25,6 @@
     </ion-item>
     <div class="button-container">
       <ion-button class="side-button" (click)="cambiarPassword()">Cambiar</ion-button>
-      <ion-button class="side-button" (click)="back()">Atras</ion-button>
     </div>
   </form>
 </ion-content>
