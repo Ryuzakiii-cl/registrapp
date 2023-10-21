@@ -34,7 +34,6 @@ export class AsistenciaPage implements OnInit {
       this.nombre = usuarioEncontrado.nombre;
       this.rut = usuarioEncontrado.rut;
     }
-
     const fecha = new Date();
     this.timestamp1 = fecha.toLocaleDateString();
 
