@@ -13,8 +13,8 @@ export class RegistrarPage implements OnInit {
   comunas: any[] = [];
   nombre: string = '';
   apellido: string = '';
-  regionSeleccionada: string = '';
-  comunaSeleccionada: string = '';
+  regionSeleccionada: number | null = null;
+  comunaSeleccionada: number | null = null;
   rut: string = '';
   usuario: string = '';
   password: string = '';
@@ -31,7 +31,7 @@ export class RegistrarPage implements OnInit {
 
   obtenerRegiones() {
     this.ServiciosService.obtenerRegiones().subscribe(
-      (data) => {
+      (data: any) => {
         this.regiones = data.data;
       },
       (error) => {
@@ -40,6 +40,20 @@ export class RegistrarPage implements OnInit {
     );
   }
 
+  onRegionChange() {
+
+    if (this.regionSeleccionada) {
+      console.log('ID de la región seleccionada:', this.regionSeleccionada);
+      this.ServiciosService.obtenerComunas(this.regionSeleccionada).subscribe(
+        (data: any) => {
+          this.comunas = data.data;
+        },
+        (error) => {
+          console.error('Error al obtener las comunas: ', error);
+        }
+      );
+    }
+  }
 
   async crearCuenta() {
     if (
@@ -47,9 +61,11 @@ export class RegistrarPage implements OnInit {
       this.apellido == '' ||
       this.rut == '' ||
       this.usuario == '' ||
-      this.password == ''
+      this.password == '' ||
+      this.regionSeleccionada == null ||
+      this.comunaSeleccionada == null
     ) {
-      console.error('Campos vacios');
+      console.error('Campos vacíos');
       const alert = await this.alertController.create({
         header: 'Alerta',
         message: 'Todos los campos deben llenarse',
@@ -65,8 +81,8 @@ export class RegistrarPage implements OnInit {
       const nuevoUsuario = {
         nombre: this.nombre,
         apellido: this.apellido,
-        regiones: this.regionSeleccionada,
-        comunas: this.comunaSeleccionada,
+        region: this.regionSeleccionada,
+        comuna: this.comunaSeleccionada,
         rut: this.rut,
         usuario: this.usuario,
         password: this.password,
@@ -75,14 +91,11 @@ export class RegistrarPage implements OnInit {
       usuariosExistente.push(nuevoUsuario);
 
       localStorage.setItem('usuarios', JSON.stringify(usuariosExistente));
-      console.log(
-        'Todos los datos de usuarios registrados:',
-        usuariosExistente
-      );
+      console.log('Todos los datos de usuarios registrados:', usuariosExistente);
       this.limpiarCampos();
 
       const alert = await this.alertController.create({
-        header: 'Exito',
+        header: 'Éxito',
         message: 'La cuenta ha sido creada exitosamente',
         buttons: ['Aceptar'],
       });
@@ -97,6 +110,8 @@ export class RegistrarPage implements OnInit {
     this.rut = '';
     this.usuario = '';
     this.password = '';
+    this.regionSeleccionada = null;
+    this.comunaSeleccionada = null;
   }
 
   back() {

@@ -21,27 +21,25 @@
       <ion-input type="text" [(ngModel)]="rut" name="rut"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label> Región</ion-label>
+      <ion-label>Región</ion-label>
       <div>
-        <ion-select [(ngModel)]="regionSeleccionada" name="regionSeleccionada"> 
-          <ion-select-option *ngFor="let region of regiones" [value]="region.nombre">
+        <ion-select [(ngModel)]="regionSeleccionada" name="regionSeleccionada" (ionChange)="onRegionChange()">
+          <ion-select-option *ngFor="let region of regiones" [value]="region.id">
             {{region.nombre}}
           </ion-select-option>
         </ion-select>
       </div>
     </ion-item>
     <ion-item>
-      <ion-label> Comuna</ion-label>
+      <ion-label>Comuna</ion-label>
       <div>
-        <ion-select [(ngModel)]="comunaSeleccionada" name="comunaSeleccionada"> 
-          <ion-select-option >
-            
-          </ion-select-option> 
+        <ion-select [(ngModel)]="comunaSeleccionada" name="comunaSeleccionada">
+          <ion-select-option *ngFor="let comuna of comunas" [value]="comuna.id">
+            {{comuna.nombre}}
+          </ion-select-option>
         </ion-select>
       </div>
     </ion-item>
-
-
     <ion-item>
       <ion-label position="floating">Usuario</ion-label>
       <ion-input type="text" [(ngModel)]="usuario" name="usuario"></ion-input>
@@ -57,7 +55,6 @@
     </div>
   </form>
 </ion-content>
-
 
 <ion-footer class="button-container">
   <ion-button (click)="back()">Atras</ion-button>
