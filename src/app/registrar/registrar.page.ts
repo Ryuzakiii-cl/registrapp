@@ -40,7 +40,6 @@ export class RegistrarPage implements OnInit {
     );
   }
 
-  obtenerComunas() {}
 
   async crearCuenta() {
     if (
