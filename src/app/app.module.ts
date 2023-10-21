@@ -10,6 +10,9 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { Geolocation } from '@capacitor/geolocation';
+
+
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, HttpClientModule, FormsModule ,IonicModule.forRoot(), AppRoutingModule],
