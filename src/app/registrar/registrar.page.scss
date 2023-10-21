@@ -13,16 +13,16 @@ ion-content .formulario{
 .formulario {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centrar contenido verticalmente en la pantalla */
+    align-items: center;
 }
 
 .button-container {
     display: flex;
-    justify-content: center; /* Centrar botones horizontalmente */
-    margin-top: 20px; /* Espacio superior entre los botones y el formulario, ajusta según sea necesario */
+    justify-content: center;
+    margin-top: 20px; 
 }
 
 .submit-button,
 .clear-button {
-    margin: 5px; /* Espacio entre los botones Registrar y Limpiar */
+    margin: 5px; 
 }

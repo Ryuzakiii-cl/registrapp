@@ -21,29 +21,25 @@ export class Tab1Page {
 
 
   iniciarSesion() {
-    // Obtener los datos de usuarios existentes del localStorage
     const usuariosExistenteString = localStorage.getItem('usuarios');
     const usuariosExistente = usuariosExistenteString ? JSON.parse(usuariosExistenteString) : [];
 
-
-    // Buscar el usuario por el nombre de usuario
     const usuarioEncontrado = usuariosExistente.find((u: any) => u.usuario === this.usuario);
 
 
     if (usuarioEncontrado) {
-      // Usuario encontrado, verificar contraseña
       if (usuarioEncontrado.password === this.password) {
-        // Contraseña válida, redirigir a la página "Sesión"
+
         localStorage.setItem('usuarioActual', usuarioEncontrado.usuario);
         this.navCtrl.navigateForward(['/sesion', {usuario:this.usuario}]);
         this.usuario = '';
         this.password = '';
       } else {
-        // Mostrar un mensaje de alerta si la contraseña es incorrecta
+
         this.mostrarAlerta('Error', 'Contraseña incorrecta');
       }
     } else {
-      // Mostrar un mensaje de alerta si el usuario no existe
+
       this.mostrarAlerta('Error', 'Ingrese usuario y contraseña');
     }
   }
@@ -57,13 +53,6 @@ export class Tab1Page {
 
     await alert.present();
   }
-
-  
-
-
-
-
-  //Metodos para navegar entre paginas
 
 
       Registrar() {

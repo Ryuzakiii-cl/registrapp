@@ -23,8 +23,8 @@
     <ion-item>
       <ion-label> Región</ion-label>
       <div>
-        <ion-select> 
-          <ion-select-option *ngFor="let region of regiones">
+        <ion-select [(ngModel)]="regionSeleccionada" name="regionSeleccionada"> 
+          <ion-select-option *ngFor="let region of regiones" [value]="region.nombre">
             {{region.nombre}}
           </ion-select-option>
         </ion-select>
@@ -33,7 +33,7 @@
     <ion-item>
       <ion-label> Comuna</ion-label>
       <div>
-        <ion-select> 
+        <ion-select [(ngModel)]="comunaSeleccionada" name="comunaSeleccionada"> 
           <ion-select-option >
             
           </ion-select-option> 
@@ -60,5 +60,5 @@
 
 
 <ion-footer class="button-container">
-  <ion-button (click)="atrasInicio()">Atras</ion-button>
+  <ion-button (click)="back()">Atras</ion-button>
 </ion-footer>

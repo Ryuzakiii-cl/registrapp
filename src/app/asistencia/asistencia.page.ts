@@ -15,8 +15,6 @@ export class AsistenciaPage implements OnInit {
   router = inject(Router);
 
   constructor( 
-    private navCtrl: NavController,
-
     private activatedrouter: ActivatedRoute
     ) { 
       this.activatedrouter.paramMap.subscribe((params) =>{
@@ -26,14 +24,12 @@ export class AsistenciaPage implements OnInit {
     const usuariosExistenteString = localStorage.getItem('usuarios');
     const usuariosExistente = usuariosExistenteString ? JSON.parse(usuariosExistenteString) : [];
 
-    // nombre donde se almacenan los datos
     const usuarioActual = localStorage.getItem('usuarioActual');
 
-    //buscamos el usuario en la lista
     const usuarioEncontrado = usuariosExistente.find((u: any) => u.usuario === usuarioActual);
 
     if (usuarioEncontrado) {
-      // se asigna el nombre y rut segun lo encontrado
+
       this.nombre = usuarioEncontrado.nombre;
       this.rut = usuarioEncontrado.rut;
     }
@@ -49,8 +45,6 @@ export class AsistenciaPage implements OnInit {
   ngOnInit() {
   }
 
-
-  //Metodos de navegacion
   back(){
     this.router.navigate(['/sesion'])
   }

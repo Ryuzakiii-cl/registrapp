@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { ServiciosService } from 'src/app/servicios.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registrar',
@@ -12,12 +13,14 @@ export class RegistrarPage implements OnInit {
   comunas: any[] = [];
   nombre: string = '';
   apellido: string = '';
+  regionSeleccionada: string = '';
+  comunaSeleccionada: string = '';
   rut: string = '';
   usuario: string = '';
   password: string = '';
 
   constructor(
-    private navCtrl: NavController,
+    private router: Router,
     private alertController: AlertController,
     private ServiciosService: ServiciosService
   ) {}
@@ -37,13 +40,9 @@ export class RegistrarPage implements OnInit {
     );
   }
 
-
-  obtenerComunas(){
-    
-  }
+  obtenerComunas() {}
 
   async crearCuenta() {
-    // Validación de campos aquí si es necesario
     if (
       this.nombre == '' ||
       this.apellido == '' ||
@@ -67,6 +66,8 @@ export class RegistrarPage implements OnInit {
       const nuevoUsuario = {
         nombre: this.nombre,
         apellido: this.apellido,
+        regiones: this.regionSeleccionada,
+        comunas: this.comunaSeleccionada,
         rut: this.rut,
         usuario: this.usuario,
         password: this.password,
@@ -75,7 +76,6 @@ export class RegistrarPage implements OnInit {
       usuariosExistente.push(nuevoUsuario);
 
       localStorage.setItem('usuarios', JSON.stringify(usuariosExistente));
-      // Mostrar todos los datos de usuarios en la consola
       console.log(
         'Todos los datos de usuarios registrados:',
         usuariosExistente
@@ -100,7 +100,7 @@ export class RegistrarPage implements OnInit {
     this.password = '';
   }
 
-  atrasInicio() {
-    this.navCtrl.navigateRoot(['/tabs/tab1']);
+  back() {
+    this.router.navigate(['/tabs/tab1']);
   }
 }
