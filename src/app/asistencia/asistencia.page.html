@@ -14,9 +14,14 @@
     <H1>Clase Registrada
     </H1>
   </div>
+  <div>
+    <ion-img *ngIf="capturedImage" [src]="capturedImage"></ion-img>
+  </div>
 </ion-content>
 
-<ion-content>
+
+
+<ion-content><br>
   <div class="registroA ">
     {{ resultadoEscaneo }}
   </div>
@@ -35,6 +40,13 @@
   <div class="registroA">
     <p>Coordenadas: {{ coordenadas }}</p>
   </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="openFrontCamera()">
+      <ion-icon name="camera-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
 </ion-content>
 
 <ion-footer>
