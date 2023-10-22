@@ -9,6 +9,20 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./sesion.page.scss'],
 })
 export class SesionPage implements OnInit {
+  
+  public alertButtons = ['OK'];
+  public alertInputs = [
+    {
+      label: 'Si',
+      type: 'radio',
+      value: 'red',
+    },
+    {
+      label: 'Si',
+      type: 'radio',
+      value: 'blue',
+    },
+  ];
   usuario: string | null = null;
   isSupported = true;
   resultadoEscaneo : string | null | undefined;
@@ -26,8 +40,6 @@ export class SesionPage implements OnInit {
     
   }
 
-
-  
   ngOnInit() {}
 
   async anto() {

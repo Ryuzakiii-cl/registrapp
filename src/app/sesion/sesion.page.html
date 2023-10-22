@@ -10,6 +10,17 @@
       <h1>Bienvenido {{usuario}}</h1>
     </ion-item>
   </ion-list>
+  <div class="alerta">
+    <ion-button id="present-alert">No Presionar!</ion-button>
+    <ion-alert
+
+      trigger="present-alert"
+      header="¿Tu mama sabe que eres fan de kunno? ಠ_ಠ"
+      [buttons]="alertButtons"
+      [inputs]="alertInputs"
+      backdropDismiss="false"
+    ></ion-alert>
+</div>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="anto()">
       <ion-icon name="scan"></ion-icon>
