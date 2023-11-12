@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { loginGuard } from './guards/auth.guard';
+import { AuthGuard } from './guards/auth.guard';
+
 
 
 const routes: Routes = [
@@ -19,11 +20,11 @@ const routes: Routes = [
   {
     path: 'sesion',
     loadChildren: () => import('./sesion/sesion.module').then( m => m.SesionPageModule),
-    canActivate: [loginGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'asistencia',
-    canActivate: [loginGuard],
+    canActivate: [AuthGuard],
     loadChildren: () => import('./asistencia/asistencia.module').then( m => m.AsistenciaPageModule)
   },
   {
@@ -37,7 +38,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'e404', // Captura todas las rutas desconocidas y las redirige a 'e404'
+    redirectTo: 'e404',
     pathMatch: 'full'
   },
 
