@@ -15,7 +15,7 @@ export class AsistenciaPage implements OnInit {
   timestamp2: string;
   nombre: string | null = null;
   rut: string | null = null;
-  coordenadas: string | null = null; // Nueva variable para las coordenadas
+  coordenadas: string | null = null;
   router = inject(Router);
   capturedImage: string | null = null;
   imagens: any[]=[];
@@ -47,7 +47,7 @@ export class AsistenciaPage implements OnInit {
 
   ngOnInit() {
     defineCustomElements(window);
-    this.obtenerCoordenadas(); // Llama a la función para obtener las coordenadas
+    this.obtenerCoordenadas();
   }
 
   async openFrontCamera() {
@@ -60,7 +60,7 @@ export class AsistenciaPage implements OnInit {
       });
   
       if (photo.webPath) {
-        this.capturedImage = photo.webPath; // Almacena la URL de la foto
+        this.capturedImage = photo.webPath;
       } else {
         console.error('La propiedad webPath de la foto es undefined');
       }
@@ -68,6 +68,9 @@ export class AsistenciaPage implements OnInit {
       console.error('Error al abrir la cámara frontal: ', error);
     }
   }
+
+
+  
 
   async obtenerCoordenadas() {
     try {

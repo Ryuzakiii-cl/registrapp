@@ -10,18 +10,17 @@
 </ion-header>
 
 <ion-content>
-  <div class="registroA">
-    <H1>Clase Registrada
-    </H1>
+  <div class="registroA bounce">
+    <H1>Clase Registrada</H1>
   </div>
   <div>
-    <ion-img *ngIf="capturedImage" [src]="capturedImage"></ion-img>
+    <ion-img *ngIf="capturedImage" [src]="capturedImage" class="zoom-in"></ion-img>
   </div>
 </ion-content>
 
 
 
-<ion-content><br>
+<ion-content class="rotate"><br>
   <div class="registroA ">
     {{ resultadoEscaneo }}
   </div>
