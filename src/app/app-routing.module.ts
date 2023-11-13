@@ -20,12 +20,12 @@ const routes: Routes = [
   {
     path: 'sesion',
     loadChildren: () => import('./sesion/sesion.module').then( m => m.SesionPageModule),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard]
   },
   {
     path: 'asistencia',
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./asistencia/asistencia.module').then( m => m.AsistenciaPageModule)
+    loadChildren: () => import('./asistencia/asistencia.module').then( m => m.AsistenciaPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'e404',
@@ -33,7 +33,7 @@ const routes: Routes = [
   },
   {
     path: 'tabs/tab1',
-    redirectTo: 'tabs/tab1',
+    redirectTo: '/tabs/tab1',
     pathMatch: 'full'
   },
   {

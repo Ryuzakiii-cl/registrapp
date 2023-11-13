@@ -3,6 +3,7 @@ import { Geolocation } from '@capacitor/geolocation';
 import { Router, ActivatedRoute } from "@angular/router";
 import { Camera, CameraResultType, CameraSource, CameraDirection } from '@capacitor/camera'; 
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
+import { StorageService } from '../servicios/storage.service';
 
 @Component({
   selector: 'app-asistencia',
@@ -15,29 +16,21 @@ export class AsistenciaPage implements OnInit {
   timestamp2: string;
   nombre: string | null = null;
   rut: string | null = null;
+  correo: string | null = null;  // Agregado para correo
   coordenadas: string | null = null;
   router = inject(Router);
   capturedImage: string | null = null;
-  imagens: any[]=[];
+  imagens: any[] = [];
 
   constructor(
-    private activatedrouter: ActivatedRoute
+    private activatedrouter: ActivatedRoute,
+    private storageService: StorageService
   ) {
-    this.activatedrouter.paramMap.subscribe((params) => {
+    this.activatedrouter.paramMap.subscribe(async (params) => {
       this.resultadoEscaneo = params.get('resultadoEscaneo');
+      await this.obtenerDatosUsuarioActual();  // Llama a la función para obtener detalles del usuario
     });
 
-    const usuariosExistenteString = localStorage.getItem('usuarios');
-    const usuariosExistente = usuariosExistenteString ? JSON.parse(usuariosExistenteString) : [];
-
-    const usuarioActual = localStorage.getItem('usuarioActual');
-
-    const usuarioEncontrado = usuariosExistente.find((u: any) => u.usuario === usuarioActual);
-
-    if (usuarioEncontrado) {
-      this.nombre = usuarioEncontrado.nombre;
-      this.rut = usuarioEncontrado.rut;
-    }
     const fecha = new Date();
     this.timestamp1 = fecha.toLocaleDateString();
 
@@ -65,12 +58,9 @@ export class AsistenciaPage implements OnInit {
         console.error('La propiedad webPath de la foto es undefined');
       }
     } catch (error) {
-      console.error('Error al abrir la cámara frontal: ', error);
-    }
+      console.error('Error al abrir la cámara frontal: ', error);
+    }
   }
-
-
-  
 
   async obtenerCoordenadas() {
     try {
@@ -83,21 +73,22 @@ export class AsistenciaPage implements OnInit {
     }
   }
 
-
-
-
-
-
-
-
-
+  async obtenerDatosUsuarioActual() {
+    const usuario = await this.storageService.obtenerNombreUsuarioActual();
+    if (usuario) {
+      this.nombre = usuario.nombre;
+      this.rut = usuario.rut;
+      this.correo = usuario.correo;
+    }
+  }
+  
 
   back() {
     this.router.navigate(['/sesion']);
   }
 
   cerrarSesion() {
-    localStorage.removeItem('usuarioActual');
+    this.storageService.removeItem('usuarioActual');
     this.router.navigate(['/tabs/tab1']);
   }
 }

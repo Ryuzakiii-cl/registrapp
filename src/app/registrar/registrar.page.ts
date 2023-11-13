@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ServiciosService } from 'src/app/servicios/servicios.service';
 import { Router } from '@angular/router';
-
+import { Region } from 'src/app/models/region';
+import { Comuna } from 'src/app/models/comuna';
+import { StorageService } from 'src/app/servicios/storage.service';
+import { HelperService } from 'src/app/servicios/helper.service';
 
 @Component({
   selector: 'app-registrar',
@@ -10,98 +13,87 @@ import { Router } from '@angular/router';
   styleUrls: ['registrar.page.scss'],
 })
 export class RegistrarPage implements OnInit {
-  regiones: any[] = [];
-  comunas: any[] = [];
+  email: string = '';
+  contrasena: string = '';
+  regiones: Region[] = [];
+  comunas: Comuna[] = [];
+  regionSeleccionado: number = 0;
+  comunaSeleccionada: number = 0;
   nombre: string = '';
   apellido: string = '';
-  regionSeleccionada: number | null = null;
-  comunaSeleccionada: number | null = null;
   rut: string = '';
   usuario: string = '';
   password: string = '';
 
   constructor(
     private router: Router,
-    private alertController: AlertController,
-    private ServiciosService: ServiciosService
+    private serviciosService: ServiciosService,
+    private auth: AngularFireAuth,
+    private storageService: StorageService,
+    private helper: HelperService
   ) {}
 
   ngOnInit() {
-    this.obtenerRegiones();
+    this.cargarRegion();
+    this.viewUser();
   }
 
-  obtenerRegiones() {
-    this.ServiciosService.obtenerRegiones().subscribe(
-      (data: any) => {
-        this.regiones = data.data;
-      },
-      (error) => {
-        console.error('Error no se pueden obtener las regiones: ', error);
-      }
+  async viewUser() {
+    console.log(
+      'USUARIOS REGISTRADOS',
+      await this.storageService.obtenerUsuario()
     );
   }
 
-  onRegionChange() {
-
-    if (this.regionSeleccionada) {
-      console.log('ID de la región seleccionada:', this.regionSeleccionada);
-      this.ServiciosService.obtenerComunas(this.regionSeleccionada).subscribe(
-        (data: any) => {
-          this.comunas = data.data;
-        },
-        (error) => {
-          console.error('Error al obtener las comunas: ', error);
-        }
-      );
-    }
+  async cargarRegion() {
+    const req = await this.serviciosService.getRegion();
+    this.regiones = req.data;
+    console.log('REGION', this.regiones);
   }
 
-  async crearCuenta() {
-    if (
-      this.nombre == '' ||
-      this.apellido == '' ||
-      this.rut == '' ||
-      this.usuario == '' ||
-      this.password == '' ||
-      this.regionSeleccionada == null ||
-      this.comunaSeleccionada == null
-    ) {
-      console.error('Campos vacíos');
-      const alert = await this.alertController.create({
-        header: 'Alerta',
-        message: 'Todos los campos deben llenarse',
-        buttons: ['Aceptar'],
-      });
-      await alert.present();
-    } else {
-      const usuariosExistenteString = localStorage.getItem('usuarios');
-      const usuariosExistente = usuariosExistenteString
-        ? JSON.parse(usuariosExistenteString)
-        : [];
+  async cargarComuna() {
+    const req = await this.serviciosService.getComuna(this.regionSeleccionado);
+    this.comunas = req.data;
+  }
 
-      const nuevoUsuario = {
-        nombre: this.nombre,
-        apellido: this.apellido,
-        region: this.regionSeleccionada,
-        comuna: this.comunaSeleccionada,
-        rut: this.rut,
-        usuario: this.usuario,
-        password: this.password,
-      };
-
-      usuariosExistente.push(nuevoUsuario);
-
-      localStorage.setItem('usuarios', JSON.stringify(usuariosExistente));
-      console.log('Todos los datos de usuarios registrados:', usuariosExistente);
-      this.limpiarCampos();
-
-      const alert = await this.alertController.create({
-        header: 'Éxito',
-        message: 'La cuenta ha sido creada exitosamente',
-        buttons: ['Aceptar'],
-      });
-
-      await alert.present();
+  async registro() {
+    const loader = await this.helper.showLoading('Cargando');
+    try {
+      var user = [
+        {
+          correo: this.email,
+          contrasena: this.contrasena,
+          nombre: this.nombre,
+          apellido: this.apellido,
+          rut: this.rut,
+          usuario: this.usuario,
+          region: this.regionSeleccionado,
+          comuna: this.comunaSeleccionada,
+        },
+      ];
+      const request = await this.auth.createUserWithEmailAndPassword(
+        this.email,
+        this.contrasena
+      );
+      this.storageService.agregarUsuario(user);
+      await this.helper.showAlert(
+        'Usuario registrado corretamente', 
+        'Información'
+      );
+      await this.router.navigateByUrl('/tabs/tab1');
+      await loader.dismiss();
+    } catch (error: any) {
+      if (error.code == 'auth/invalid-email') {
+        await loader.dismiss();
+        await this.helper.showAlert('Error en el formato del correo', 'Error');
+      }
+      if (error.code == 'auth/weak-password') {
+        await loader.dismiss();
+        await this.helper.showAlert(
+          'El largo de la contraseña es incorrecto',
+          'Error'
+        );
+      }
     }
   }
 
@@ -111,8 +103,10 @@ export class RegistrarPage implements OnInit {
     this.rut = '';
     this.usuario = '';
     this.password = '';
-    this.regionSeleccionada = null;
-    this.comunaSeleccionada = null;
+    this.regionSeleccionado = 0;
+    this.comunaSeleccionada = 0;
+    this.email = '';
+    this.contrasena = '';
   }
 
   back() {

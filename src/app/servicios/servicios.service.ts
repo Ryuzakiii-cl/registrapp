@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
+import { ApiResponse } from '../models/ApiResponse';
+import { Region } from '../models/region';
+import { environment } from 'src/environments/environment';
+
+
 
 @Injectable({
   providedIn: 'root',
@@ -10,11 +15,11 @@ export class ServiciosService {
 
   constructor(private http: HttpClient) {}
 
-  obtenerRegiones(): Observable<any> {
-    return this.http.get<any>(`https://dev.matiivilla.cl/duoc/location/region`);
+  async getRegion(){
+    return await lastValueFrom(this.http.get<ApiResponse<Region>>(`${environment.apiUrl}region`));
   }
 
-  obtenerComunas(regionId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}comuna/${regionId}`);
+  async getComuna(regionId: number){
+    return await lastValueFrom(this.http.get<ApiResponse<Region>>(`${environment.apiUrl}comuna/` + regionId));
   }
 }

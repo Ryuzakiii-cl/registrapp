@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController } from '@ionic/angular';
-
+import { HelperService } from 'src/app/servicios/helper.service';
+import { StorageService } from 'src/app/servicios/storage.service';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab1',
@@ -14,45 +17,42 @@ export class Tab1Page {
 
   constructor(
     public navCtrl: NavController, 
-    private alertController: AlertController) {}
+    private alertController: AlertController,
+    private router:Router,
+    private helperService:HelperService,
+    private storage:StorageService,
+    private auth:AngularFireAuth) {}
       
 
 
 
 
-  iniciarSesion() {
-    const usuariosExistenteString = localStorage.getItem('usuarios');
-    const usuariosExistente = usuariosExistenteString ? JSON.parse(usuariosExistenteString) : [];
+  async iniciarSesion() {
+    const loader = await this.helperService.showLoading("Cargando");
 
-    const usuarioEncontrado = usuariosExistente.find((u: any) => u.usuario === this.usuario);
+    if (this.usuario === "" || this.password === "") {
+      this.helperService.showAlert("Debe ingresar un nombre de usuario y una contraseña.", "Error");
+      loader.dismiss();
+      return;
+    }
 
+    try {
+      const usuarioGuardado = await this.storage.obtenerNombreUsuario(this.usuario);
 
-    if (usuarioEncontrado) {
-      if (usuarioEncontrado.password === this.password) {
-
-        localStorage.setItem('usuarioActual', usuarioEncontrado.usuario);
-        this.navCtrl.navigateForward(['/sesion', {usuario:this.usuario}]);
-        this.usuario = '';
-        this.password = '';
-      } else {
-
-        this.mostrarAlerta('Error', 'Contraseña incorrecta');
+      if (!usuarioGuardado || usuarioGuardado.contrasena !== this.password) {
+        throw new Error("Credenciales incorrectas");
       }
-    } else {
 
-      this.mostrarAlerta('Error', 'Ingrese usuario y contraseña');
+      // Autenticación exitosa
+      loader.dismiss();
+      await this.router.navigateByUrl('sesion');
+    } catch (error) {
+      loader.dismiss();
+      this.helperService.showAlert("Credenciales incorrectas.", "Error");
     }
   }
+  
 
-  async mostrarAlerta(titulo: string, mensaje: string) {
-    const alert = await this.alertController.create({
-      header: titulo,
-      message: mensaje,
-      buttons: ['OK'],
-    });
-
-    await alert.present();
-  }
 
 
       Registrar() {

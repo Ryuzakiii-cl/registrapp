@@ -1,7 +1,10 @@
+// sesion.page.ts
+
 import { Component, OnInit, inject } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
 import { BarcodeScanner } from 'capacitor-barcode-scanner';
 import { ActivatedRoute, Router } from '@angular/router';
+import { StorageService } from '../servicios/storage.service';
 
 @Component({
   selector: 'app-sesion',
@@ -9,7 +12,6 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./sesion.page.scss'],
 })
 export class SesionPage implements OnInit {
-  
   public alertButtons = ['OK'];
   public alertInputs = [
     {
@@ -24,30 +26,36 @@ export class SesionPage implements OnInit {
     },
   ];
   usuario: string | null = null;
-  isSupported = true;
-  resultadoEscaneo : string | null | undefined;
-  router = inject(Router);
-  
 
   constructor(
     private alertController: AlertController,
     private navCtrl: NavController,
-    private activatedrouter: ActivatedRoute
+    private activatedrouter: ActivatedRoute,
+    private storageService: StorageService,
+    private router: Router
+
   ) {
     this.activatedrouter.paramMap.subscribe((params) => {
-      this.usuario = params.get('usuario');
+      this.obtenerNombreUsuario();
     });
-    
   }
 
   ngOnInit() {}
 
+  async obtenerNombreUsuario() {
+    const usuarioActual = await this.storageService.obtenerNombreUsuarioActual();
+    if (usuarioActual) {
+      this.usuario = usuarioActual.nombre;
+    } else {
+      this.usuario = ""; // O cualquier valor predeterminado si el usuario no está presente
+    }
+  }
+  
   async anto() {
     const resultadoScan = await BarcodeScanner.scan();
     if (resultadoScan.result) {
       console.log('resulatdo escaner', resultadoScan.code);
-      this.resultadoEscaneo=resultadoScan.code;
-      this.navCtrl.navigateForward(['/asistencia', {resultadoEscaneo:this.resultadoEscaneo}]);
+      this.navCtrl.navigateForward(['/asistencia', { resultadoEscaneo: resultadoScan.code }]);
     } else {
       alert('No es posible capturar la información.');
     }

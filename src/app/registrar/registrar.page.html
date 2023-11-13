@@ -7,56 +7,62 @@
   </ion-toolbar>
 </ion-header>
 
-<h1>Registrar Usuario</h1>
 
-<ion-content class="formulario">
-  <form (submit)="crearCuenta()">
-    <ion-item>
-      <ion-label position="floating">Nombre</ion-label>
-      <ion-input type="text" [(ngModel)]="nombre" name="nombre"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Apellido</ion-label>
-      <ion-input type="text" [(ngModel)]="apellido" name="apellido"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Rut</ion-label>
-      <ion-input type="text" [(ngModel)]="rut" name="rut"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>Región</ion-label>
-      <div>
-        <ion-select [(ngModel)]="regionSeleccionada" name="regionSeleccionada" (ionChange)="onRegionChange()">
-          <ion-select-option *ngFor="let region of regiones" [value]="region.id">
-            {{region.nombre}}
-          </ion-select-option>
-        </ion-select>
-      </div>
-    </ion-item>
-    <ion-item>
-      <ion-label>Comuna</ion-label>
-      <div>
-        <ion-select [(ngModel)]="comunaSeleccionada" name="comunaSeleccionada">
-          <ion-select-option *ngFor="let comuna of comunas" [value]="comuna.id">
-            {{comuna.nombre}}
-          </ion-select-option>
-        </ion-select>
-      </div>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Usuario</ion-label>
-      <ion-input type="text" [(ngModel)]="usuario" name="usuario"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input type="password" [(ngModel)]="password" name="password"></ion-input>
-    </ion-item>
+<ion-content [fullscreen]="true">
+  <h1>Registrar Usuario</h1>
+  <ion-card> 
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Nombre:</ion-label>
+        <ion-input [(ngModel)]="nombre" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Apellido:</ion-label>
+        <ion-input [(ngModel)]="apellido" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Rut:</ion-label>
+        <ion-input [(ngModel)]="rut" type="text"></ion-input>
+      </ion-item>
+      <ion-list>
+        <ion-item>
+          <ion-select (ionChange)="cargarComuna()" placeholder="Seleccione region" [(ngModel)]="regionSeleccionado">
+            <ion-select-option [value]="i.id" *ngFor="let i of regiones">{{i.nombre}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
 
-    <div class="button-container">
-      <ion-button class="submit-button" type="submit">Registrar</ion-button>
-      <ion-button class="clear-button" (click)="limpiarCampos()">Limpiar</ion-button>
-    </div>
-  </form>
+      <ion-list>
+        <ion-item>
+          <ion-select placeholder="Seleccione comuna" [(ngModel)]="comunaSeleccionada">
+            <ion-select-option [value]="i.id" *ngFor="let i of comunas">{{i.nombre}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+      <ion-item>
+        <ion-label>Email:</ion-label>
+        <ion-input [(ngModel)]="email" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Usuario:</ion-label>
+        <ion-input [(ngModel)]="usuario" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Contraseña:</ion-label>
+        <ion-input [(ngModel)]="contrasena" type="password"></ion-input>
+      </ion-item>
+      
+    </ion-card-content>
+    <ion-row class="ion-justify-content-center ion-text-center">
+      <ion-col>
+        <ion-button (click)="registro()" >Registrar</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button (click)="limpiarCampos()" >Limpiar</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
 </ion-content>
+
 
 
