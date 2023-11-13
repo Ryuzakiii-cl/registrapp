@@ -88,7 +88,8 @@ export class AsistenciaPage implements OnInit {
   }
 
   cerrarSesion() {
-    this.storageService.removeItem('usuarioActual');
+    this.storageService.removeItem('usuarioData');
     this.router.navigate(['/tabs/tab1']);
   }
+  
 }

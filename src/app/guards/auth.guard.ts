@@ -8,19 +8,20 @@ import { StorageService } from '../servicios/storage.service';
 export class AuthGuard implements CanActivate {
 
   constructor(
-      private router: Router,
-     private storageService: StorageService) {}
+    private router: Router,
+    private storageService: StorageService
+  ) {}
 
   async canActivate(): Promise<boolean> {
-    const usuarioActual = await this.storageService.obtenerUsuario();
+    const usuarioActual = await this.storageService.obtenerNombreUsuarioActual();
 
     if (usuarioActual) {
       return true; // Usuario autenticado
     } else {
       setTimeout(() => {
-        this.router.navigate(['/e404']); 
+        this.router.navigate(['/e404']);
         setTimeout(() => {
-          this.router.navigate(['/tabs/tab1']); 
+          this.router.navigate(['/tabs/tab1']);
         }, 2000);
       }, 0);
 

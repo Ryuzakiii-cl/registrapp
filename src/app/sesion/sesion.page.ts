@@ -70,8 +70,11 @@ export class SesionPage implements OnInit {
     await alert.present();
   }
 
-  cerrarSesion() {
-    localStorage.removeItem('usuarioActual');
-    this.router.navigate(['/tabs/tab1']);
+
+    cerrarSesion() {
+      this.storageService.removeItem('usuarioData');
+      this.router.navigate(['/tabs/tab1']);
+    }
+    
   }
-}
+
