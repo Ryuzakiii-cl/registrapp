@@ -27,8 +27,8 @@
 
   <div class="registroA">
     <p>Nombre: {{ nombre }}</p>
-    <p>RUT: {{ rut }}</p>
-    <p>COREO: {{ correo }}</p>
+    <p>Rut: {{ rut }}</p>
+    <p>Correo: {{ correo }}</p>
   </div>
 
   <div class="registroA">
@@ -41,11 +41,7 @@
     <p>Coordenadas: {{ coordenadas }}</p>
   </div>
 
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="openFrontCamera()">
-      <ion-icon name="camera-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+
 
 </ion-content>
 
@@ -55,5 +51,12 @@
     <ion-button (click)="cerrarSesion()">
       Cerrar Sesion
     </ion-button>
+  </div>
+  <div>
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button (click)="openFrontCamera()">
+        <ion-icon name="camera-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
   </div>
 </ion-footer>
